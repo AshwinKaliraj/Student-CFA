@@ -1,56 +1,51 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white text-center">
-          <h3>Student CFA Login</h3>
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="col-11 col-md-5 col-lg-4">
+    <div class="card">
+      <div class="card-body p-5">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Student CFA</h2>
+          <p class="text-muted">Sign in to your account</p>
         </div>
-        <div class="card-body">
-          <form (ngSubmit)="onLogin()">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                [(ngModel)]="loginData.email"
-                name="email"
-                required
-                placeholder="Enter your email"
-              />
-            </div>
 
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                [(ngModel)]="loginData.password"
-                name="password"
-                required
-                placeholder="Enter your password"
-              />
-            </div>
-
-            <div class="alert alert-danger" *ngIf="errorMessage">
-              {{ errorMessage }}
-            </div>
-
-            <button
-              type="submit"
-              class="btn btn-primary w-100"
-              [disabled]="isLoading"
-            >
-              <span *ngIf="isLoading">Logging in...</span>
-              <span *ngIf="!isLoading">Login</span>
-            </button>
-          </form>
-
-          <div class="text-center mt-3">
-            <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+        <form (ngSubmit)="onLogin()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              [(ngModel)]="loginData.email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
           </div>
-        </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              [(ngModel)]="loginData.password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="isLoading">
+            <span *ngIf="isLoading">Signing in...</span>
+            <span *ngIf="!isLoading">Sign In</span>
+          </button>
+
+          <div class="text-center">
+            <span class="text-muted">Don't have an account? </span>
+            <a routerLink="/register" class="fw-semibold">Register</a>
+          </div>
+        </form>
       </div>
     </div>
   </div>
