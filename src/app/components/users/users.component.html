@@ -1,0 +1,243 @@
+<div class="container-fluid mt-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Student Management System</h2>
+        <div>
+          <span class="badge bg-info me-2">{{ currentUser?.name }} ({{ currentUser?.designation }})</span>
+          <button class="btn btn-danger" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Users List -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Users List</h5>
+          <button *ngIf="isTeacher" class="btn btn-light btn-sm" (click)="createUser()">
+            + Add New
+          </button>
+        </div>
+        <div class="card-body" style="max-height: 600px; overflow-y: auto;">
+          <div class="list-group">
+            <a
+              *ngFor="let user of users"
+              class="list-group-item list-group-item-action"
+              [class.active]="selectedUser?.id === user.id"
+              (click)="viewUser(user)"
+            >
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-0">{{ user.name }}</h6>
+                  <small>{{ user.email }}</small>
+                </div>
+                <span class="badge" [class.bg-success]="user.designation === 'Teacher'" [class.bg-info]="user.designation === 'Student'">
+                  {{ user.designation }}
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Details / Edit / Create -->
+    <div class="col-md-8">
+      <!-- View User Details -->
+      <div *ngIf="selectedUser && !isEditing" class="card shadow">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">User Details</h5>
+          <div>
+            <button *ngIf="isTeacher" class="btn btn-warning btn-sm me-2" (click)="editUser(selectedUser)">Edit</button>
+            <button *ngIf="isTeacher" class="btn btn-danger btn-sm" (click)="deleteUser(selectedUser.id)">Delete</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 text-center">
+              <img [src]="selectedUser.imageUrl || 'https://via.placeholder.com/150'" class="img-fluid rounded-circle mb-3" alt="User Image" style="width: 150px; height: 150px; object-fit: cover;">
+            </div>
+            <div class="col-md-8">
+              <table class="table table-borderless">
+                <tr>
+                  <th>Name:</th>
+                  <td>{{ selectedUser.name }}</td>
+                </tr>
+                <tr>
+                  <th>Email:</th>
+                  <td>{{ selectedUser.email }}</td>
+                </tr>
+                <tr>
+                  <th>Phone:</th>
+                  <td>{{ selectedUser.phoneNumber }}</td>
+                </tr>
+                <tr>
+                  <th>Date of Birth:</th>
+                  <td>{{ selectedUser.dateOfBirth }}</td>
+                </tr>
+                <tr>
+                  <th>Age:</th>
+                  <td>{{ selectedUser.age }}</td>
+                </tr>
+                <tr>
+                  <th>Designation:</th>
+                  <td><span class="badge" [class.bg-success]="selectedUser.designation === 'Teacher'" [class.bg-info]="selectedUser.designation === 'Student'">{{ selectedUser.designation }}</span></td>
+                </tr>
+                <tr>
+                  <th>Department:</th>
+                  <td>{{ selectedUser.department }}</td>
+                </tr>
+                <tr>
+                  <th>Address:</th>
+                  <td>{{ selectedUser.address }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit User Form -->
+      <div *ngIf="selectedUser && isEditing" class="card shadow">
+        <div class="card-header bg-warning text-dark">
+          <h5 class="mb-0">Edit User</h5>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="saveUser()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedUser.name" name="name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedUser.phoneNumber" name="phoneNumber" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" [(ngModel)]="selectedUser.dateOfBirth" name="dateOfBirth" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Age</label>
+                <input type="number" class="form-control" [(ngModel)]="selectedUser.age" name="age" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Designation</label>
+                <select class="form-control" [(ngModel)]="selectedUser.designation" name="designation" required>
+                  <option value="Student">Student</option>
+                  <option value="Teacher">Teacher</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Department</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedUser.department" name="department" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Image URL</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedUser.imageUrl" name="imageUrl">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <textarea class="form-control" [(ngModel)]="selectedUser.address" name="address" rows="3" required></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn btn-secondary me-2" (click)="cancelEdit()">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Create New User Form -->
+      <div *ngIf="isCreating" class="card shadow">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Create New User</h5>
+          <div class="col-md-6 mb-3">
+  <label class="form-label">Password</label>
+  <input type="password" class="form-control" [(ngModel)]="newUser.password" name="password" required>
+</div>
+
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="saveNewUser()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" [(ngModel)]="newUser.name" name="name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" [(ngModel)]="newUser.email" name="email" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="text" class="form-control" [(ngModel)]="newUser.phoneNumber" name="phoneNumber" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" [(ngModel)]="newUser.dateOfBirth" name="dateOfBirth" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Age</label>
+                <input type="number" class="form-control" [(ngModel)]="newUser.age" name="age" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Designation</label>
+                <select class="form-control" [(ngModel)]="newUser.designation" name="designation" required>
+                  <option value="">Select...</option>
+                  <option value="Student">Student</option>
+                  <option value="Teacher">Teacher</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Department</label>
+                <input type="text" class="form-control" [(ngModel)]="newUser.department" name="department" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Image URL</label>
+                <input type="text" class="form-control" [(ngModel)]="newUser.imageUrl" name="imageUrl">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <textarea class="form-control" [(ngModel)]="newUser.address" name="address" rows="3" required></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn btn-secondary me-2" (click)="cancelEdit()">Cancel</button>
+              <button type="submit" class="btn btn-success">Create User</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!selectedUser && !isCreating" class="card shadow">
+        <div class="card-body text-center py-5">
+          <h4 class="text-muted">Select a user to view details</h4>
+          <p class="text-muted">Click on a user from the list to see their information</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
