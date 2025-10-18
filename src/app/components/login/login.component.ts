@@ -1,18 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';  // ADD RouterLink here
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],  // ADD RouterLink here
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styles: []
 })
 export class LoginComponent {
+  // rest of the code stays the same
   loginData: LoginRequest = {
     email: '',
     password: ''

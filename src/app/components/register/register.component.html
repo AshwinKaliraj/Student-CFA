@@ -1,0 +1,89 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-success text-white text-center">
+          <h3>Student Registration</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onRegister()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" [(ngModel)]="registerData.name" name="name" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" [(ngModel)]="registerData.email" name="email" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" [(ngModel)]="registerData.password" name="password" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="registerData.phoneNumber" name="phoneNumber" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="registerData.dateOfBirth" name="dateOfBirth" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age" [(ngModel)]="registerData.age" name="age" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="designation" class="form-label">Designation</label>
+                <select class="form-control" id="designation" [(ngModel)]="registerData.designation" name="designation" required>
+                  <option value="">Select...</option>
+                  <option value="Student">Student</option>
+                  <option value="Teacher">Teacher</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="department" class="form-label">Department</label>
+                <input type="text" class="form-control" id="department" [(ngModel)]="registerData.department" name="department" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="address" class="form-label">Address</label>
+              <textarea class="form-control" id="address" [(ngModel)]="registerData.address" name="address" rows="3" required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image URL (Optional)</label>
+              <input type="text" class="form-control" id="imageUrl" [(ngModel)]="registerData.imageUrl" name="imageUrl">
+            </div>
+
+            <div class="alert alert-danger" *ngIf="errorMessage">
+              {{ errorMessage }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" [disabled]="isLoading">
+              <span *ngIf="isLoading">Registering...</span>
+              <span *ngIf="!isLoading">Register</span>
+            </button>
+          </form>
+
+          <div class="text-center mt-3">
+            <p>Already have an account? <a routerLink="/login">Login here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
