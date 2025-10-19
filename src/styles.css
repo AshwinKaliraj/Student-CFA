@@ -23,7 +23,7 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-5px);
+ 
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
 }
 
@@ -55,7 +55,6 @@ body {
 
 .btn-primary:hover {
   background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  transform: scale(1.05);
   box-shadow: 0 5px 20px rgba(139, 92, 246, 0.5);
 }
 
@@ -66,7 +65,6 @@ body {
 
 .btn-success:hover {
   background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  transform: scale(1.05);
   box-shadow: 0 5px 20px rgba(16, 185, 129, 0.5);
 }
 
@@ -302,4 +300,15 @@ h1, h2, h3, h4, h5, h6 {
 .modal-close:hover {
   color: #ef4444;
   transform: rotate(90deg);
+}
+/* Date Input Calendar Icon - Make it white */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Firefox */
+input[type="date"]::-moz-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
